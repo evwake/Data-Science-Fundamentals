@@ -66,7 +66,10 @@ class my_KMeans:
                 for arr in clusters[idx]:
                     for i, x in enumerate(arr):
                         cluster_avg[i] += x
-                cluster_avg = [x / len(clusters[idx]) for x in cluster_avg]
+                if(len(clusters[idx]) != 0):
+                    cluster_avg = [x / len(clusters[idx]) for x in cluster_avg]
+                else:
+                    cluster_avg = 0
                 cluster_centers.append(cluster_avg)
             last_sse = sse
 

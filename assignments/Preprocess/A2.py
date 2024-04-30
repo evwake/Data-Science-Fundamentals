@@ -21,32 +21,33 @@ if __name__ == "__main__":
 
     print("\nIris class distribution:")
     print(Counter(y))
+    for norm in ['Min-Max', 'Standard_Score', 'L1', 'L2']:
+        print("Running", norm, "Normalizer")
+        # Preprocess (train)
+        normalizer = my_preprocess.my_normalizer(norm = norm, axis = 1)
+        X_norm = normalizer.fit_transform(X)
 
-    # Preprocess (train)
-    normalizer = my_preprocess.my_normalizer(norm = "L2", axis = 1)
-    X_norm = normalizer.fit_transform(X)
+        # Perform stratified sampling
+        sample = my_preprocess.stratified_sampling(y, ratio = 0.5, replace = False)
+        X_sample = X_norm[sample]
+        y_sample = y[sample].to_numpy()
+        print("\nSample class distribution:")
+        print(Counter(y_sample))
+    
+        # Fit model
+        clf = DecisionTreeClassifier()
+        clf.fit(X_sample, y_sample)
+    
+        # Load testing data
+        data_test = pd.read_csv("../data/Iris_test.csv")
+        X_test = data_test[independent]
+    
+        # Preprocess (test)
+        X_test_norm = normalizer.transform(X_test)
 
-    # Perform stratified sampling
-    sample = my_preprocess.stratified_sampling(y, ratio = 0.5, replace = False)
-    X_sample = X_norm[sample]
-    y_sample = y[sample].to_numpy()
-    print("\nSample class distribution:")
-    print(Counter(y_sample))
+        # Predict
+        predictions = clf.predict(X_test_norm)
     
-    # Fit model
-    clf = DecisionTreeClassifier()
-    clf.fit(X_sample, y_sample)
-    
-    # Load testing data
-    data_test = pd.read_csv("../data/Iris_test.csv")
-    X_test = data_test[independent]
-    
-    # Preprocess (test)
-    X_test_norm = normalizer.transform(X_test)
-
-    # Predict
-    predictions = clf.predict(X_test_norm)
-    
-    # Output predictions on test data
-    print("\nModel predictions:")
-    print(predictions)
+        # Output predictions on test data
+        print("\nModel predictions:")
+        print(predictions)
