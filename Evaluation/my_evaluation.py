@@ -24,7 +24,6 @@ class my_evaluation:
         # compute confusion matrix for each class in self.classes_
         # self.confusion = {self.classes_[i]: {"TP":tp, "TN": tn, "FP": fp, "FN": fn}}
         # no return variables
-        # write your own code below
         self.confusion_mtx = {}
         self.correct = self.predictions == self.actuals
         for label in self.classes_:
@@ -53,9 +52,6 @@ class my_evaluation:
         # target: target class (str). If not None, then return precision of target class
         # average: {"macro", "micro", "weighted"}. If target==None, return average precision
         # output: prec = float
-        # note: be careful for divided by 0
-        # write your own code below
-
         if self.confusion_matrix==None:
             self.confusion()
         if target != None:
@@ -82,8 +78,6 @@ class my_evaluation:
         # target: target class (str). If not None, then return recall of target class
         # average: {"macro", "micro", "weighted"}. If target==None, return average recall
         # output: recall = float
-        # note: be careful for divided by 0
-        # write your own code below
         if self.confusion_matrix==None:
             self.confusion()
         if target != None:
@@ -110,8 +104,6 @@ class my_evaluation:
         # target: target class (str). If not None, then return f1 of target class
         # average: {"macro", "micro", "weighted"}. If target==None, return average f1
         # output: f1 = float
-        # note: be careful for divided by 0
-        # write your own code below
         precision_ci = self.precision(target, average)
         recall_ci = self.recall(target, average)
         f1_score = 0

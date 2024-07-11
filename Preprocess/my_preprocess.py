@@ -14,7 +14,6 @@ class my_normalizer:
         #     X: input matrix
         #     Calculate offsets and scalers which are used in transform()
         X_array  = np.asarray(X)
-        # Write your own code below
         offsets = []
         scalers = []
         if self.axis == 0:
@@ -34,7 +33,6 @@ class my_normalizer:
     def transform(self, X):
         # Transform X into X_norm
         X_norm = deepcopy(np.asarray(X))
-        # Write your own code below
         if self.axis == 0:
             for i in range(X_norm.shape[self.axis]):
                 X_norm[i] = X_norm[i] - self.offsets[i] / self.scalers[i]

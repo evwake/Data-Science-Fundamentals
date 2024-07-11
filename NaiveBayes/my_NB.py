@@ -14,23 +14,33 @@ class my_NB:
     def fit(self, X, y):
         # X: pd.DataFrame, independent variables, str
         # y: list, np.array or pd.Series, dependent variables, int or str
-        # list of classes for this model
         self.classes_ = list(set(list(y)))
-        # for calculation of P(y)
-        self.P_y = Counter(y)
-        # self.P[yj][Xi][xi] = P(xi|yj) where Xi is the feature name and xi is the feature value, yj is a specific class label
-        # make sure to use self.alpha in the __init__() function as the smoothing factor when calculating P(xi|yj)
+        # Calculate P(yj) and P(xi|yj)        
+        yj_counter = Counter(y)
+        self.P_y = {}
         self.P = {}
-        return
-    
+        for yj in self.classes_:
+            self.P[yj] = {}
+            n = yj_counter[yj]
+            self.P_y[yj] = n / len(y)
+            for Xi in X.columns:
+                self.P[yj][Xi] = {}
+                all_possible_values = set(X[Xi])
+                v = len(all_possible_values)
+                nc = Counter(X[Xi][y==yj])
+                for xi in all_possible_values:
+                    count = 0
+                    if xi in nc:
+                        count = nc[xi]
+                    self.P[yj][Xi][xi] = (count + self.alpha) / (n + v * self.alpha)
+
     def predict(self, X):
         # X: pd.DataFrame, independent variables, str
         # return predictions: list
-        # Hint: predicted class is the class with highest prediction probability (from self.predict_proba)
         probs = self.predict_proba(X)
         predictions = [self.classes_[np.argmax(prob)] for prob in probs.to_numpy()]
         return predictions
-    
+
     def predict_proba(self, X):
         # X: pd.DataFrame, independent variables, str
         # prob is a dict of prediction probabilities belonging to each categories

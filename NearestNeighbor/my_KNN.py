@@ -15,7 +15,6 @@ class my_KNN:
         # X: pd.DataFrame, independent variables, float
         # y: list, np.array or pd.Series, dependent variables, int or str
         self.classes_ = list(set(list(y)))
-        # write your code below
         self.X = X
         self.y = y
         return
@@ -61,7 +60,6 @@ class my_KNN:
         # X: pd.DataFrame, independent variables, float
         # prob is a dict of prediction probabilities belonging to each categories
         # return probs = pd.DataFrame(list of prob, columns = self.classes_)
-        # write your code below
         probs_list = []
         for row in X.iterrows():
             prob_dict = {}
